@@ -82,6 +82,44 @@ This example takes a shot of the LA Times homepage after hiding ads and the term
 ```
 Further options are described in the [shot-scraper README file](https://github.com/simonw/shot-scraper#taking-multiple-screenshots).
 
+## Automatic Cleanup of Old Images
+
+This repository includes an automated cleanup system that removes wallpaper images older than 30 days to prevent the repository from growing too large over time.
+
+### GitHub Actions Cleanup
+
+The cleanup runs automatically every day at 4am UTC via GitHub Actions (`.github/workflows/cleanup.yml`). It will:
+- Find all wallpaper files matching the pattern `wallpaper-{device}-{date}.png`
+- Delete files where the date is older than 30 days
+- Commit and push the changes with a detailed summary
+
+### Manual Cleanup
+
+You can also run cleanup manually using the included Python script:
+
+```bash
+# Show what would be deleted (dry run)
+python cleanup_old_wallpapers.py --dry-run
+
+# Delete files older than 30 days (default)
+python cleanup_old_wallpapers.py
+
+# Delete files older than 14 days
+python cleanup_old_wallpapers.py --max-age 14
+
+# Cleanup in a specific directory
+python cleanup_old_wallpapers.py --directory /path/to/wallpapers
+
+# Quiet mode (only output count)
+python cleanup_old_wallpapers.py --quiet
+```
+
+The script will:
+- Parse dates from wallpaper filenames
+- Calculate which files are older than the specified age
+- Optionally show a preview of what will be deleted
+- Delete old files and provide a summary
+
 ## Installing fonts for more languages
 
 The default Ubuntu used by GitHub Actions does not include fonts for many languages, including Chinese and Japanese.
