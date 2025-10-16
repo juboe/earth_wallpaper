@@ -9,7 +9,7 @@
   wait: 2000
   javascript: |
     // Remove UI elements for clean screenshot
-    document.querySelectorAll('body > main > div.earth-bar, body > main > div.cta-bar.kiosk').forEach(el => el.remove());
+    document.querySelectorAll('body > main > div.stack, body > main > div.cta-bar.kiosk').forEach(el => el.remove());
 
 # iPhone wallpaper - coordinates: longitude=-352.61, latitude=34.17, zoom=400  
 - url: https://earth.nullschool.net/#current/particulates/surface/level/overlay=pm2.5/orthographic=-352.61,34.17,400
@@ -19,4 +19,4 @@
   wait: 2000
   javascript: |
     // Remove UI elements for clean screenshot
-    document.querySelectorAll('body > main > div.earth-bar, body > main > div.cta-bar.kiosk').forEach(el => el.remove());
+    document.querySelectorAll('body > main > div.stack, body > main > div.cta-bar.kiosk').forEach(el => el.remove());
