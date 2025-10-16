@@ -1,4 +1,4 @@
-- url: https://earth.nullschool.net/#current/particulates/surface/level/overlay=pm2.5/orthographic=-352.61,34.17,541
+- url: https://earth.nullschool.net/#current/particulates/surface/level/overlay=pm2.5/orthographic=-352.61,34.17,400
   output: shot.png
   height: 800
   wait: 2000
