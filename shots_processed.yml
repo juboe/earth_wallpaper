@@ -1,10 +1,10 @@
-- url: https://earth.nullschool.net/#current/particulates/surface/level/overlay=pm2.5/orthographic=-352.61,34.17,530
+- height: 1600
   output: wallpaper-macbook-2025-10-16.png
-  height: 1600
+  url: https://earth.nullschool.net/#current/particulates/1000hPa/level/overlay=pm2.5/patterson=-352.61,34.17,600
+  wait: 3000
   width: 2560
-  wait: 2000
-- url: https://earth.nullschool.net/#current/particulates/surface/level/overlay=pm2.5/orthographic=-352.61,34.17,400
-  output: shot-iphone-2025-10-16.png
-  height: 2340
+- height: 2340
+  output: wallpaper-iphone-2025-10-16.png
+  url: https://earth.nullschool.net/#current/space/surface/level/overlay=aurora/stereographic=-352.61,34.17,400
+  wait: 3000
   width: 1080
-  wait: 2000
