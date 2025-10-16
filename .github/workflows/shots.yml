@@ -110,7 +110,11 @@ jobs:
                 'output': f'wallpaper-{device}-{{date}}.png',
                 'width': width,
                 'height': height,
-                'wait': 3000  # Longer wait for render-heavy site
+                'wait': 3000,  # Longer wait for render-heavy site
+                'javascript': '''
+                    // Remove UI elements for clean screenshot
+                    document.querySelectorAll('body > main > div.earth-bar, body > main > div.cta-bar.kiosk').forEach(el => el.remove());
+                '''
             })
         
         # Write to shots_processed.yml
