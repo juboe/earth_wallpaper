@@ -1,4 +1,10 @@
 - url: https://earth.nullschool.net/#current/particulates/surface/level/overlay=pm2.5/orthographic=-352.61,34.17,400
+  output: shot-macbook.png
+  height: 1600
+  width: 2560
+  wait: 2000
+- url: https://earth.nullschool.net/#current/particulates/surface/level/overlay=pm2.5/orthographic=-352.61,34.17,400
   output: shot.png
-  height: 800
+  height: 2340
+  width: 1080
   wait: 2000
