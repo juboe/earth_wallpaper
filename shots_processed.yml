@@ -3,7 +3,7 @@
     \    document.querySelectorAll('body > main > div.earth-bar, body > main > div.cta-bar.kiosk').forEach(el\
     \ => el.remove());\n        "
   output: wallpaper-macbook-2025-10-16.png
-  url: https://earth.nullschool.net/#current/space/surface/level/overlay=aurora/atlantis=-352.61,34.17,600
+  url: https://earth.nullschool.net/#current/space/surface/level/overlay=aurora/winkel3=-352.61,34.17,600
   wait: 3000
   width: 2560
 - height: 2340
@@ -11,6 +11,6 @@
     \    document.querySelectorAll('body > main > div.earth-bar, body > main > div.cta-bar.kiosk').forEach(el\
     \ => el.remove());\n        "
   output: wallpaper-iphone-2025-10-16.png
-  url: https://earth.nullschool.net/#current/space/surface/level/overlay=aurora/winkel3=-352.61,34.17,400
+  url: https://earth.nullschool.net/#current/space/surface/level/overlay=aurora/stereographic=-352.61,34.17,400
   wait: 3000
   width: 1080
