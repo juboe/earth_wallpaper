@@ -7,17 +7,17 @@
   output: wallpaper-macbook-{date}.png
   height: 1600
   width: 2560
-  wait: 2000
+  wait: 10000
   javascript: |
-    // Remove UI elements for clean screenshot
-    document.querySelectorAll('body > main > div.stack, body > main > div.cta-bar.kiosk').forEach(el => el.remove());
+    // Remove all UI chrome except the core map canvas
+    document.querySelectorAll('body > main > :not(#main-display)').forEach(el => el.remove());
 
 # iPhone wallpaper - coordinates: longitude=-352.61, latitude=34.17, zoom=400  
-- url: https://earth.nullschool.net/#current/particulates/surface/level/overlay=pm2.5/orthographic=-352.61,34.17,350
+- url: https://earth.nullschool.net/#current/particulates/surface/level/overlay=pm2.5/orthographic=-352.61,34.17,400
   output: wallpaper-iphone-{date}.png
   height: 2340
   width: 1080
-  wait: 2000
+  wait: 10000
   javascript: |
-    // Remove UI elements for clean screenshot
-    document.querySelectorAll('body > main > div.stack, body > main > div.cta-bar.kiosk').forEach(el => el.remove());
+    // Remove all UI chrome except the core map canvas
+    document.querySelectorAll('body > main > :not(#main-display)').forEach(el => el.remove());
