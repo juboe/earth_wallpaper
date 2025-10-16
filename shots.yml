@@ -1,10 +1,16 @@
-- url: https://earth.nullschool.net/#current/particulates/surface/level/overlay=pm2.5/orthographic=-352.61,34.17,530
+# Template configuration - GitHub Action will generate random URLs daily
+# This file serves as a fallback and documents the coordinate system used
+
+# MacBook wallpaper - coordinates: longitude=-352.61, latitude=34.17, zoom=600
+- url: https://earth.nullschool.net/#current/particulates/surface/level/overlay=pm2.5/orthographic=-352.61,34.17,600
   output: wallpaper-macbook-{date}.png
   height: 1600
   width: 2560
   wait: 2000
+
+# iPhone wallpaper - coordinates: longitude=-352.61, latitude=34.17, zoom=400  
 - url: https://earth.nullschool.net/#current/particulates/surface/level/overlay=pm2.5/orthographic=-352.61,34.17,400
-  output: shot-iphone-{date}.png
+  output: wallpaper-iphone-{date}.png
   height: 2340
   width: 1080
   wait: 2000

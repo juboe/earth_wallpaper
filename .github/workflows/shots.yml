@@ -3,6 +3,10 @@ name: Take screenshots
 on:
   push:
   workflow_dispatch:
+  schedule:
+    # Run daily at 5am CEST (3am UTC in winter, 4am UTC in summer)
+    # Using 3am UTC to handle winter time
+    - cron: '0 3 * * *'
 
 permissions:
   contents: write
@@ -50,11 +54,81 @@ jobs:
               }
               fs.writeFileSync('shots.yml', line + '\n');
           }
-    - name: Take shots
+    - name: Generate random URLs and take shots
       run: |
+        # Generate random earth.nullschool.net URLs
+        python3 << 'EOF'
+        import random
+        import yaml
+        from datetime import datetime
+
+        # Define all possible parameters
+        modes = ['wind', 'ocean', 'chem', 'particulates', 'space']
+        levels = ['surface', '1000hPa', '850hPa', '700hPa', '500hPa', '250hPa', '70hPa', '10hPa']
+        animations = ['wind', 'currents', 'waves', 'level']
+        
+        # Overlays by mode
+        overlays = {
+            'wind': ['wind', 'temp', 'rh', 'wbt', 'dew', 'wpd', 'tpw', 'tcw', '3hpa', 'cape'],
+            'ocean': ['sst', 'ssta', 'htsgw', 'perpw'],
+            'chem': ['cosc', 'co2sc', 'so2sm', 'no2'],
+            'particulates': ['pm1', 'pm2.5', 'pm10', 'duex', 'so4ex', 'omaot'],
+            'space': ['aurora']
+        }
+        
+        projections = ['orthographic', 'atlantis', 'conic', 'equirectangular', 'patterson', 'stereographic', 'waterman', 'winkel3']
+        
+        # Use fixed coordinates from your original shots.yml
+        device_coords = {
+            'macbook': '-352.61,34.17,600',
+            'iphone': '-352.61,34.17,400'
+        }
+        
+        # Generate two different random URLs
+        shots = []
+        
+        for device, (width, height) in [('macbook', (2560, 1600)), ('iphone', (1080, 2340))]:
+            mode = random.choice(modes)
+            level = random.choice(levels)
+            animation = random.choice(animations)
+            overlay = random.choice(overlays[mode])
+            projection = random.choice(projections)
+            coords = device_coords[device]
+            
+            # Some combinations don't work well, add logic to fix them
+            if mode == 'space':
+                level = 'surface'  # Space mode only works with surface
+                animation = 'level'  # Aurora doesn't animate
+            
+            if mode == 'ocean' and level != 'surface':
+                level = 'surface'  # Ocean data is primarily surface
+            
+            url = f"https://earth.nullschool.net/#current/{mode}/{level}/{animation}/overlay={overlay}/{projection}={coords}"
+            
+            shots.append({
+                'url': url,
+                'output': f'wallpaper-{device}-{{date}}.png',
+                'width': width,
+                'height': height,
+                'wait': 3000  # Longer wait for render-heavy site
+            })
+        
+        # Write to shots_processed.yml
+        with open('shots_processed.yml', 'w') as f:
+            yaml.dump(shots, f, default_flow_style=False)
+        
+        # Print the generated URLs for logging
+        print("Generated URLs:")
+        for shot in shots:
+            print(f"- {shot['output']}: {shot['url']}")
+        
+        EOF
+        
         # Replace {date} placeholder with current date
         current_date=$(date +%Y-%m-%d)
-        sed "s/{date}/$current_date/g" shots.yml > shots_processed.yml
+        sed -i "s/{date}/$current_date/g" shots_processed.yml
+        
+        # Take the shots
         shot-scraper multi shots_processed.yml
     - name: Commit and push
       run: |-
