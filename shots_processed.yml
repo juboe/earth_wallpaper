@@ -1,0 +1,10 @@
+- url: https://earth.nullschool.net/#current/particulates/surface/level/overlay=pm2.5/orthographic=-352.61,34.17,440
+  output: wallpaper-macbook-2025-10-16.png
+  height: 1600
+  width: 2560
+  wait: 2000
+- url: https://earth.nullschool.net/#current/particulates/surface/level/overlay=pm2.5/orthographic=-352.61,34.17,400
+  output: shot-iphone-2025-10-16.png
+  height: 2340
+  width: 1080
+  wait: 2000
