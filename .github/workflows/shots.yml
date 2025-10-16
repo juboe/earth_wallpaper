@@ -4,8 +4,8 @@ on:
   push:
   workflow_dispatch:
   schedule:
-    # Run daily at 5am CEST (3am UTC in winter, 4am UTC in summer)
-    # Using 3am UTC to handle winter time
+    # Run daily around 5am Europe/Berlin (3am UTC during CEST, 4am UTC during CET)
+    # Cron stays at 3am UTC so winter runs slightly earlier to sidestep DST shifts
     - cron: '0 3 * * *'
 
 permissions:
@@ -60,7 +60,8 @@ jobs:
         python3 << 'EOF'
         import random
         import yaml
-        from datetime import datetime
+        from datetime import datetime, timedelta
+        from zoneinfo import ZoneInfo
 
         # Define all possible parameters
         modes = ['wind', 'ocean', 'chem', 'particulates', 'space']
@@ -83,10 +84,13 @@ jobs:
             'macbook': '-352.61,34.17,600',
             'iphone': '-352.61,34.17,400'
         }
-        
+
         # Generate two different random URLs
         shots = []
-        
+        localized_dt = datetime.now(ZoneInfo("Europe/Berlin")) + timedelta(hours=3)
+        target_date = localized_dt.strftime("%Y-%m-%d")
+        print(f"Using Europe/Berlin date (+3h offset): {target_date}")
+
         for device, (width, height) in [('macbook', (2560, 1600)), ('iphone', (1080, 2340))]:
             mode = random.choice(modes)
             level = random.choice(levels)
@@ -107,7 +111,7 @@ jobs:
             
             shots.append({
                 'url': url,
-                'output': f'wallpaper-{device}-{{date}}.png',
+                'output': f'wallpaper-{device}-{target_date}.png',
                 'width': width,
                 'height': height,
                 'wait': 3000,  # Longer wait for render-heavy site
@@ -127,10 +131,6 @@ jobs:
             print(f"- {shot['output']}: {shot['url']}")
         
         EOF
-        
-        # Replace {date} placeholder with current date
-        current_date=$(date +%Y-%m-%d)
-        sed -i "s/{date}/$current_date/g" shots_processed.yml
         
         # Take the shots
         shot-scraper multi shots_processed.yml
