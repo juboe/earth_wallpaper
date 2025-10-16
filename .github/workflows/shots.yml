@@ -52,7 +52,10 @@ jobs:
           }
     - name: Take shots
       run: |
-        shot-scraper multi shots.yml
+        # Replace {date} placeholder with current date
+        current_date=$(date +%Y-%m-%d)
+        sed "s/{date}/$current_date/g" shots.yml > shots_processed.yml
+        shot-scraper multi shots_processed.yml
     - name: Commit and push
       run: |-
         git config user.name "Automated"
