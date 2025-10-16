@@ -1,0 +1,91 @@
+name: Cleanup old wallpapers
+
+on:
+  schedule:
+    # Run daily at 6am CEST (4am UTC in winter, 5am UTC in summer)
+    # Using 4am UTC to run after the screenshot generation
+    - cron: '0 4 * * *'
+  workflow_dispatch:  # Allow manual triggering
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    if: ${{ !github.event.repository.is_template }}
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Fetch full history to see all files
+    
+    - name: Delete old wallpaper images
+      run: |
+        # Calculate the date 30 days ago
+        cutoff_date=$(date -d "30 days ago" +%Y-%m-%d)
+        echo "Deleting wallpaper images older than $cutoff_date"
+        
+        # Find and delete wallpaper files older than 30 days
+        deleted_files=()
+        
+        # Look for wallpaper files matching the pattern wallpaper-{device}-{date}.png
+        for file in wallpaper-*.png; do
+          if [[ -f "$file" ]]; then
+            # Extract date from filename (format: wallpaper-device-YYYY-MM-DD.png)
+            if [[ $file =~ wallpaper-[^-]+-([0-9]{4}-[0-9]{2}-[0-9]{2})\.png ]]; then
+              file_date="${BASH_REMATCH[1]}"
+              
+              # Compare dates (this works because YYYY-MM-DD format sorts chronologically)
+              if [[ "$file_date" < "$cutoff_date" ]]; then
+                echo "Deleting old file: $file (date: $file_date)"
+                rm "$file"
+                deleted_files+=("$file")
+              else
+                echo "Keeping recent file: $file (date: $file_date)"
+              fi
+            else
+              echo "Skipping file with unexpected format: $file"
+            fi
+          fi
+        done
+        
+        # Create summary
+        if [ ${#deleted_files[@]} -eq 0 ]; then
+          echo "No old wallpaper files found to delete."
+          echo "deleted_count=0" >> $GITHUB_ENV
+        else
+          echo "Deleted ${#deleted_files[@]} old wallpaper files:"
+          printf '%s\n' "${deleted_files[@]}"
+          echo "deleted_count=${#deleted_files[@]}" >> $GITHUB_ENV
+          echo "deleted_files=$(IFS=,; echo "${deleted_files[*]}")" >> $GITHUB_ENV
+        fi
+    
+    - name: Commit and push changes
+      run: |
+        # Check if there are any changes to commit
+        if [[ -n $(git status --porcelain) ]]; then
+          git config user.name "Automated Cleanup"
+          git config user.email "actions@users.noreply.github.com"
+          
+          # Add all changes (which should be deletions of old files)
+          git add -A
+          
+          # Create commit message with details
+          if [ "$deleted_count" -gt 0 ]; then
+            commit_msg="🧹 Cleanup: Deleted $deleted_count old wallpaper files older than 30 days"
+            if [ -n "$deleted_files" ]; then
+              deleted_list=$(echo "$deleted_files" | tr ',' '\n' | sed 's/^/- /')
+              commit_msg="$commit_msg"$'\n\n'"Deleted files:"$'\n'"$deleted_list"
+            fi
+          else
+            commit_msg="🧹 Cleanup: No old files to delete"
+          fi
+          
+          git commit -m "$commit_msg"
+          git pull --rebase
+          git push
+          
+          echo "✅ Cleanup completed and changes pushed to repository"
+        else
+          echo "ℹ️ No changes to commit - no old files were found"
+        fi
