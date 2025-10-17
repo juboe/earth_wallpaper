@@ -64,19 +64,19 @@ jobs:
 
         urls = [
             {
-                "macbook": "https://earth.nullschool.net/#current/wind/isobaric/250hPa/orthographic=9.00,53.00,500",
+                "macbook": "https://earth.nullschool.net/#current/wind/isobaric/250hPa/orthographic=9.00,53.00,600",
                 "iphone": "https://earth.nullschool.net/#current/wind/isobaric/250hPa/orthographic=9.00,53.00,360",
             },
             {
-                "macbook": "https://earth.nullschool.net/#current/wind/isobaric/10hPa/orthographic=-360.00,90.00,500",
+                "macbook": "https://earth.nullschool.net/#current/wind/isobaric/10hPa/orthographic=-360.00,90.00,600",
                 "iphone": "https://earth.nullschool.net/#current/wind/isobaric/10hPa/orthographic=-360.00,90.00,360",
             },
         ]
 
         shots = []
-        localized_dt = datetime.now(ZoneInfo("Europe/Berlin")) + timedelta(hours=3)
+        localized_dt = datetime.now(ZoneInfo("Europe/Berlin"))
         target_date = localized_dt.strftime("%Y-%m-%d")
-        print(f"Using Europe/Berlin date (+3h offset): {target_date}")
+        print(f"Using Europe/Berlin date: {target_date}")
 
         coords_rotation = localized_dt.toordinal() % len(urls)
 
