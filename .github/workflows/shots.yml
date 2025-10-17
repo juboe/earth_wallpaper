@@ -63,8 +63,14 @@ jobs:
         from zoneinfo import ZoneInfo
 
         urls = [
-            "https://earth.nullschool.net/#current/wind/isobaric/250hPa/orthographic=9.00,53.00,360",
-            "https://earth.nullschool.net/#current/wind/isobaric/10hPa/orthographic=-360.00,90.00,360",
+            {
+                "macbook": "https://earth.nullschool.net/#current/wind/isobaric/250hPa/orthographic=9.00,53.00,420",
+                "iphone": "https://earth.nullschool.net/#current/wind/isobaric/250hPa/orthographic=9.00,53.00,360",
+            },
+            {
+                "macbook": "https://earth.nullschool.net/#current/wind/isobaric/10hPa/orthographic=-360.00,90.00,420",
+                "iphone": "https://earth.nullschool.net/#current/wind/isobaric/10hPa/orthographic=-360.00,90.00,360",
+            },
         ]
 
         shots = []
@@ -75,7 +81,7 @@ jobs:
         coords_rotation = localized_dt.toordinal() % len(urls)
 
         for idx, (device, (width, height)) in enumerate([('macbook', (2560, 1600)), ('iphone', (1080, 2340))]):
-            url = urls[(coords_rotation + idx) % len(urls)]
+            url = urls[(coords_rotation + idx) % len(urls)][device]
 
             shots.append({
                 'url': url,
