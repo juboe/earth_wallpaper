@@ -64,11 +64,11 @@ jobs:
 
         urls = [
             {
-                "macbook": "https://earth.nullschool.net/#current/wind/isobaric/250hPa/orthographic=9.00,53.00,420",
+                "macbook": "https://earth.nullschool.net/#current/wind/isobaric/250hPa/orthographic=9.00,53.00,500",
                 "iphone": "https://earth.nullschool.net/#current/wind/isobaric/250hPa/orthographic=9.00,53.00,360",
             },
             {
-                "macbook": "https://earth.nullschool.net/#current/wind/isobaric/10hPa/orthographic=-360.00,90.00,420",
+                "macbook": "https://earth.nullschool.net/#current/wind/isobaric/10hPa/orthographic=-360.00,90.00,500",
                 "iphone": "https://earth.nullschool.net/#current/wind/isobaric/10hPa/orthographic=-360.00,90.00,360",
             },
         ]
