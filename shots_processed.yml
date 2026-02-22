@@ -2,15 +2,15 @@
   javascript: "\n            // Remove UI elements for clean screenshot\n        \
     \    document.querySelectorAll('body > main > div.earth-bar, body > main > div.cta-bar.kiosk').forEach(el\
     \ => el.remove());\n        "
-  output: wallpaper-macbook-2026-02-21.png
-  url: https://earth.nullschool.net/#current/wind/isobaric/250hPa/orthographic=9.00,53.00,600
+  output: wallpaper-macbook-2026-02-22.png
+  url: https://earth.nullschool.net/#current/wind/isobaric/10hPa/orthographic=-360.00,90.00,600
   wait: 6000
   width: 2560
 - height: 2340
   javascript: "\n            // Remove UI elements for clean screenshot\n        \
     \    document.querySelectorAll('body > main > div.earth-bar, body > main > div.cta-bar.kiosk').forEach(el\
     \ => el.remove());\n        "
-  output: wallpaper-iphone-2026-02-21.png
-  url: https://earth.nullschool.net/#current/wind/isobaric/10hPa/orthographic=-360.00,90.00,360
+  output: wallpaper-iphone-2026-02-22.png
+  url: https://earth.nullschool.net/#current/wind/isobaric/250hPa/orthographic=9.00,53.00,360
   wait: 6000
   width: 1080
